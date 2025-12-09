@@ -1,40 +1,40 @@
-import { readFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises'
 
 async function loadData(filePath) {
-  const url = new URL(filePath, import.meta.url);
-  const content = await readFile(url, { encoding: 'utf-8' });
+  const url = new URL(filePath, import.meta.url)
+  const content = await readFile(url, { encoding: 'utf-8' })
   return content
     .trim()
     .split(',')
-    .map((range) => range.split('-').map((e) => Number(e)));
+    .map((range) => range.split('-').map((e) => Number(e)))
 }
 
 function getSumOfInvalidIDs(ranges) {
-  let sum = 0;
+  let sum = 0
   for (const range of ranges) {
     for (let value = range[0]; value <= range[1]; value++) {
       if (isInvalidID(value)) {
-        sum += value;
+        sum += value
       }
     }
   }
-  return sum;
+  return sum
 }
 
 function isInvalidID(n) {
-  const s = String(n);
-  const len = s.length;
+  const s = String(n)
+  const len = s.length
 
   if (len < 2) {
-    return false;
+    return false
   }
 
   for (let i = 1; i <= len / 2; i++) {
     if (s.slice(0, i).repeat(len / i) === s) {
-      return true;
+      return true
     }
   }
-  return false;
+  return false
 }
 
-console.log(getSumOfInvalidIDs(await loadData('input.txt')));
+console.log(getSumOfInvalidIDs(await loadData('input.txt')))
